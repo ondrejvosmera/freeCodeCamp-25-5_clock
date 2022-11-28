@@ -18,6 +18,15 @@ body {
 
 button {
   border: none;
+  font-size: 40px;
+  color: #bfff00;
+  background-color: #202020;
+  cursor: pointer;
+  transition: 0.4s;
+}
+
+button:hover {
+  color: #296841;
 }
 
 .title {
@@ -71,18 +80,6 @@ button {
   font-size: 40px;
 }
 
-.arrow {
-  font-size: 40px;
-  color: #bfff00;
-  background-color: #202020;
-  cursor: pointer;
-  transition: 0.4s;
-}
-
-.arrow:hover {
-  color: #296841;
-}
-
 .clock {
   display: flex;
   flex-direction: column;
@@ -108,14 +105,5 @@ button {
 }
 
 .btn-control {
-  font-size: 40px;
-  color: #bfff00;
-  background-color: #202020;
   padding: 0 10px 0 10px;
-  cursor: pointer;
-  transition: 0.4s;
-}
-
-.btn-control:hover {
-  color: #296841;
 }

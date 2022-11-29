@@ -35,7 +35,13 @@ class App extends React.Component {
         isPlaying: true
       });
 
-      this.loop = setInterval(() => {}, 1000);
+      this.loop = setInterval(() => {
+        const { clock } = this.state;
+
+        this.setState ({
+          clock: clock - 1
+        });
+      }, 1000);
     }
   }
 
@@ -48,7 +54,7 @@ class App extends React.Component {
     let seconds = num % 60;
 
     seconds = seconds < 10 ? ('0' + seconds) : seconds;
-    return minutes + ":" + seconds;         
+    return `${minutes}:${seconds}`;         
   }
 
   render () {
@@ -57,8 +63,9 @@ class App extends React.Component {
       breakCount, 
       sessionCount, 
       clock, 
-      currentTimer
-     } = this.state
+      currentTimer,
+      isPlaying
+     } = this.state;
 
     return (
       <div className='container'>
@@ -90,8 +97,8 @@ class App extends React.Component {
             <div className='timer'>{this.time_convert(clock)}</div>
 
             <div className='control'>
-              <button className='btn-control'><BiPlayCircle /></button>
-              <button className='btn-control'><BiPauseCircle /></button>
+              <button className={`btn-control ${isPlaying ? 'hide' : 'show'}`} onClick={this.handlePlayPause}><BiPlayCircle /></button>
+              <button className={`btn-control ${isPlaying ? 'show' : 'hide'}`} onClick={this.handlePlayPause}><BiPauseCircle /></button>
               <button className='btn-control'><VscDebugRestart /></button>
             </div>
           </div>

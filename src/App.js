@@ -45,6 +45,64 @@ class App extends React.Component {
     }
   }
 
+  handleRestart = () => {
+    const { isPlaying, sessionCount } = this.state;
+
+    if(isPlaying) {
+      clearInterval(this.loop);
+
+      this.setState ({
+        isPlaying: false
+      });
+    }
+
+    this.setState ({
+      clock: time_convert(sessionCount)
+    });
+  }
+
+  handleBreakIncrease = () => {
+    const { breakCount } = this.state;
+
+    if(breakCount < 60) {
+      this.setState ({
+          breakCount: breakCount + 1
+      });
+    }
+  }
+
+  handleBreakDecrease = () => {
+    const { breakCount } = this.state;
+
+    if(breakCount > 1) {
+      this.setState ({
+          breakCount: breakCount - 1
+      });
+    }
+  }
+
+  handleSessionIncrease = () => {
+    const { sessionCount, clock } = this.state;
+
+    if(sessionCount < 60) {
+      this.setState ({
+          sessionCount: sessionCount + 1,
+          clock: clock + 60
+      });
+    }
+  }
+
+  handleSessionDecrease = () => {
+    const { sessionCount, clock } = this.state;
+
+    if(sessionCount > 1) {
+      this.setState ({
+          sessionCount: sessionCount - 1,
+          clock: clock - 60
+      });
+    }
+  }
+
   componentWillUnmount() {
     clearInterval(this.loop);
   }
@@ -76,18 +134,18 @@ class App extends React.Component {
           <div className='break'>
             <div className='break-title'>Break length</div>
             <div className='break-control'>
-              <button className='arrow'><FiArrowUpCircle /></button>
+              <button className='arrow' onClick={this.handleBreakIncrease}><FiArrowUpCircle /></button>
               <div className='break-number'>{breakCount}</div>
-              <button className='arrow'><FiArrowDownCircle /></button>
+              <button className='arrow' onClick={this.handleBreakDecrease}><FiArrowDownCircle /></button>
             </div>
           </div>
         
           <div className='session'>
             <div className='session-title'>Session length</div>
             <div className='session-control'>
-              <button className='arrow'><FiArrowUpCircle /></button>
+              <button className='arrow' onClick={this.handleSessionIncrease}><FiArrowUpCircle /></button>
               <div className='session-number'>{sessionCount}</div>
-              <button className='arrow'><FiArrowDownCircle /></button>
+              <button className='arrow' onClick={this.handleSessionDecrease}><FiArrowDownCircle /></button>
             </div>
           </div>
         </div>
@@ -99,7 +157,7 @@ class App extends React.Component {
             <div className='control'>
               <button className={`btn-control ${isPlaying ? 'hide' : 'show'}`} onClick={this.handlePlayPause}><BiPlayCircle /></button>
               <button className={`btn-control ${isPlaying ? 'show' : 'hide'}`} onClick={this.handlePlayPause}><BiPauseCircle /></button>
-              <button className='btn-control'><VscDebugRestart /></button>
+              <button className='btn-control'  onClick={this.handleRestart}><VscDebugRestart /></button>
             </div>
           </div>
           

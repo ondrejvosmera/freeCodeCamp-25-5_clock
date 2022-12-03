@@ -36,29 +36,21 @@ class App extends React.Component {
       });
 
       this.loop = setInterval(() => {
-        const { clock } = this.state;
+        const { clock, currentTimer, breakCount, sessionCount } = this.state;
 
-        this.setState ({
-          clock: clock - 1
-        });
+        if(clock === 0) {
+          this.setState ({
+            currentTimer: (currentTimer === 'Session') ? 'Break' : 'Session',
+            clock: (currentTimer === 'Session') ? (breakCount * 60) : (sessionCount * 60)
+          });
+        } else {
+          this.setState ({
+            clock: clock - 1
+          });
+        }
+
       }, 1000);
     }
-  }
-
-  handleRestart = () => {
-    const { isPlaying, sessionCount } = this.state;
-
-    if(isPlaying) {
-      clearInterval(this.loop);
-
-      this.setState ({
-        isPlaying: false
-      });
-    }
-
-    this.setState ({
-      clock: time_convert(sessionCount)
-    });
   }
 
   handleBreakIncrease = () => {
@@ -103,6 +95,22 @@ class App extends React.Component {
     }
   }
 
+  handleRestart = () => {
+    const { isPlaying, sessionCount } = this.state;
+
+    if(isPlaying) {
+      clearInterval(this.loop);
+
+      this.setState ({
+        isPlaying: false
+      });
+    }
+
+    this.setState ({
+      clock: sessionCount * 60
+    });
+  }
+
   componentWillUnmount() {
     clearInterval(this.loop);
   }
@@ -134,18 +142,18 @@ class App extends React.Component {
           <div className='break'>
             <div className='break-title'>Break length</div>
             <div className='break-control'>
-              <button className='arrow' onClick={this.handleBreakIncrease}><FiArrowUpCircle /></button>
+              <button className={`arrow ${isPlaying ? 'not-clickable' : 'clickable'}`} onClick={this.handleBreakIncrease}><FiArrowUpCircle /></button>
               <div className='break-number'>{breakCount}</div>
-              <button className='arrow' onClick={this.handleBreakDecrease}><FiArrowDownCircle /></button>
+              <button className={`arrow ${isPlaying ? 'not-clickable' : 'clickable'}`} onClick={this.handleBreakDecrease}><FiArrowDownCircle /></button>
             </div>
           </div>
         
           <div className='session'>
             <div className='session-title'>Session length</div>
             <div className='session-control'>
-              <button className='arrow' onClick={this.handleSessionIncrease}><FiArrowUpCircle /></button>
+              <button className={`arrow ${isPlaying ? 'not-clickable' : 'clickable'}`} onClick={this.handleSessionIncrease}><FiArrowUpCircle /></button>
               <div className='session-number'>{sessionCount}</div>
-              <button className='arrow' onClick={this.handleSessionDecrease}><FiArrowDownCircle /></button>
+              <button className={`arrow ${isPlaying ? 'not-clickable' : 'clickable'}`} onClick={this.handleSessionDecrease}><FiArrowDownCircle /></button>
             </div>
           </div>
         </div>
